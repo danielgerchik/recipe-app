@@ -56,7 +56,9 @@ body {
     font-size: 1.6rem;
     font-family: 'Open Sans', sans-serif;
 }
-
+ol {
+    list-style: auto;
+}
 .wrapper {
     overflow-x: hidden;
 }
@@ -244,4 +246,11 @@ body {
   .manual__img {
     width: 100%;
     margin-bottom: 1em;
+  }
+  .recipe__meal-icon.active svg {
+    fill: #0c7a11;
+    opacity: 1;
+  }
+  .manual__ingredients {
+    list-style-position: inside;
   }
