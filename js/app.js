@@ -6,6 +6,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
     const manual = document.querySelector('.recipe__manual')
     const closeManualBtn = document.querySelector('.manual svg')
     const logo = document.querySelector('.recipe__logo')
+    const favItems = document.querySelector('.recipe__favorites-items')
+    const recipeContent = document.querySelector('.recipe__content')
 
     const getFromLS = () => {
       return JSON.parse(localStorage.getItem('recipeItem'))  
@@ -27,16 +29,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
         localStorage.setItem('recipeItem', JSON.stringify(newItemsArr))
      }
 
-     
-
-   
-
-       
-
-       
-        
-    
-
   }
 
     const setRandomMeal = async e => {
@@ -48,6 +40,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
         mealsBlock.innerHTML = ''
         const mealEl = document.createElement('div')
         mealEl.classList.add('recipe__mealEl_random')
+        const storageItems = getFromLS()
         mealEl.innerHTML = 
         `
         <div class="recipe__meal">
@@ -64,10 +57,19 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
 
         const favBtn =  mealsBlock.querySelector('.recipe__meal-icon')
+        if(storageItems) {
+            storageItems.forEach(element => {
+                if(element.idMeal === randomMeal.meals[0].idMeal) {
+                    favBtn.classList.add('active')
+                }
+              })
+        }
+
        
         favBtn.addEventListener('click', e=> {
             favBtn.classList.toggle('active')
             addToLS(randomMeal.meals[0])
+            renderFavItems()
         })
         
         mealEl.addEventListener('click', e=> {
@@ -85,12 +87,38 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
     setRandomMeal()
 
+   function renderFavItems() {
+        const storageArr = getFromLS()
+
+        if (storageArr) {
+            favItems.innerHTML = ''
+            storageArr.map(item => {
+                const favItem = document.createElement('div')
+                favItem.classList.add('recipe__favorites-item')
+                favItem.innerHTML = 
+                `
+                <img  src="${item.strMealThumb}" class="recipe__favorites-img"></img>
+                <div class="recipe__favorites-sub-text">
+                    ${item.strMeal}
+                </div>
+                `
+                favItem.addEventListener('click', e=> {
+                    showManual(item)
+                })
+                favItems.appendChild(favItem)
+    
+            })
+        }
+
+    }
+    renderFavItems()
 
     const setMealByName = async meal => {
         const response = await fetch(`https://www.themealdb.com/api/json/v1/1/search.php?s=${meal}`)
         const meals = await response.json()
         const mealsArray = meals.meals
         mealsBlock.innerHTML = ''
+        const storageItems = getFromLS()
         mealsArray.map(el => {
           const mealEl = document.createElement('div')
           mealEl.classList.add('recipe__mealEl')
@@ -106,13 +134,22 @@ document.addEventListener("DOMContentLoaded", function(event) {
           </div>
           `
           
-          mealEl.querySelector('.recipe__meal-icon').addEventListener('click', e=> {
+          const mealIcon = mealEl.querySelector('.recipe__meal-icon')
+
+          if(storageItems) {
+            storageItems.forEach(element => {
+                if(element.idMeal === el.idMeal) {
+                    mealIcon.classList.add('active')
+                }
+              })
+          }
+
+
+          mealIcon.addEventListener('click', e=> {
             e.currentTarget.classList.toggle('active')
             addToLS(el)
+            renderFavItems()
           })
-          
-        //   elem.classList.toggle('active')
-        //   addToLS(el)
 
           mealsBlock.appendChild(mealEl)
 
@@ -145,31 +182,40 @@ document.addEventListener("DOMContentLoaded", function(event) {
     })
 
     
-   const showManual = meal => {
+   function showManual(meal) {
     document.querySelector('.manual__name').innerHTML = meal.strMeal
     document.querySelector('.manual__instructions').innerHTML = meal.strInstructions
     document.querySelector('.manual__img').setAttribute('src', meal.strMealThumb)
+    const ingrEl = document.querySelector('.manual__ingredients')
     
-    const ingredients = []
 
-    for (let i = 1; i <= 20; i++) {
-        if(meal['strIngredient' + i]) {
-            ingredients.push(`${meal['strIngredient' + i]} / ${meal['strMeasure' + i]}`)
+        const ingredients = []
+
+        for (let i = 1; i <= 20; i++) {
+            if(meal['strIngredient' + i]) {
+                ingredients.push(`${meal['strIngredient' + i]} / ${meal['strMeasure' + i]}`)
+            }
+            
+            
         }
+       
+    
+        ingrEl.innerHTML = ''
         
-        
-    }
-   const ingrEl = document.querySelector('.manual__ingredients')
-   
-   ingredients.forEach(ingr => {
-    ingrEl.insertAdjacentHTML('beforeend', `<li>${ingr}</li>`)
-   })
+       ingredients.forEach(ingr => {
+        ingrEl.insertAdjacentHTML('beforeend', `<li>${ingr}</li>`)
+       })
+
 
     manual.classList.remove('hidden')
+    recipeContent.style.overflow = 'hidden'
+    
    }
   
    closeManualBtn.addEventListener('click', e => {
     manual.classList.add('hidden')
+    recipeContent.style.overflow = 'auto'
    })
    
   });
+
