@@ -9,6 +9,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
     const favItems = document.querySelector('.recipe__favorites-items')
     const recipeContent = document.querySelector('.recipe__content')
 
+
     const getFromLS = () => {
       return JSON.parse(localStorage.getItem('recipeItem'))  
       }
@@ -31,6 +32,17 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
   }
 
+
+  function toggleIconClass (item, favBtn) {
+    const storageItems = getFromLS()
+    if(storageItems) {
+        storageItems.forEach(element => {
+            if(element.idMeal === item.idMeal) {
+                favBtn.classList.add('active')
+            }
+          })
+    }
+  }
     const setRandomMeal = async e => {
 
         const response = await fetch('https://www.themealdb.com/api/json/v1/1/random.php')
@@ -40,7 +52,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
         mealsBlock.innerHTML = ''
         const mealEl = document.createElement('div')
         mealEl.classList.add('recipe__mealEl_random')
-        const storageItems = getFromLS()
         mealEl.innerHTML = 
         `
         <div class="recipe__meal">
@@ -57,13 +68,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
 
         const favBtn =  mealsBlock.querySelector('.recipe__meal-icon')
-        if(storageItems) {
-            storageItems.forEach(element => {
-                if(element.idMeal === randomMeal.meals[0].idMeal) {
-                    favBtn.classList.add('active')
-                }
-              })
-        }
+
+        toggleIconClass (randomMeal.meals[0], favBtn)
 
        
         favBtn.addEventListener('click', e=> {
@@ -87,6 +93,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
     setRandomMeal()
 
+
    function renderFavItems() {
         const storageArr = getFromLS()
 
@@ -103,10 +110,35 @@ document.addEventListener("DOMContentLoaded", function(event) {
                 </div>
                 `
                 favItem.addEventListener('click', e=> {
-                    showManual(item)
+                    if(e.target.parentNode.nodeName !== 'svg') {
+                        showManual(item)
+                    }
+                    
                 })
+                const favRemoveBut = document.createElement('div')
+                favRemoveBut.classList.add('recipe__favorites-remove-but')
+                favRemoveBut.innerHTML = 
+                `<svg width="20" height="20" viewBox="0 0 455 455" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="227.5" cy="227.5" r="227.5" fill="white"/>
+                <path d="M227.5 0C101.761 0 0 101.75 0 227.5C0 353.239 101.75 455 227.5 455C353.239 455 455 353.25 455 227.5C455.001 101.761 353.251 0 227.5 0ZM310.759 268.333C322.474 280.049 322.474 299.044 310.759 310.76C304.901 316.618 297.223 319.547 289.546 319.547C281.869 319.547 274.191 316.618 268.333 310.76L227.5 269.927L186.668 310.759C180.81 316.617 173.132 319.546 165.455 319.546C157.778 319.546 150.1 316.617 144.242 310.759C132.527 299.043 132.527 280.048 144.242 268.332L185.074 227.5L144.242 186.668C132.527 174.952 132.527 155.957 144.242 144.241C155.958 132.525 174.953 132.525 186.669 144.241L227.501 185.073L268.333 144.241C280.049 132.525 299.044 132.525 310.76 144.241C322.475 155.957 322.475 174.952 310.76 186.668L269.927 227.5L310.759 268.333Z" fill="#0C7A11"/>
+                </svg>                
+                ` 
+                favRemoveBut.addEventListener('click', ()=> {
+                    addToLS(item)
+                    renderFavItems()
+                    const allActiveFavBut = document.querySelectorAll('.recipe__meal-icon.active')
+                    allActiveFavBut.forEach(el=> {
+                        if(item.strMealThumb === el.parentNode.parentNode.querySelector('.recipe__meal-img').getAttribute('src')) {
+                            el.classList.remove('active')
+                        }
+                        
+                        
+                    })
+
+                })
+                favItem.appendChild(favRemoveBut)
                 favItems.appendChild(favItem)
-    
+                
             })
         }
 
@@ -118,7 +150,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
         const meals = await response.json()
         const mealsArray = meals.meals
         mealsBlock.innerHTML = ''
-        const storageItems = getFromLS()
         mealsArray.map(el => {
           const mealEl = document.createElement('div')
           mealEl.classList.add('recipe__mealEl')
@@ -136,13 +167,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
           
           const mealIcon = mealEl.querySelector('.recipe__meal-icon')
 
-          if(storageItems) {
-            storageItems.forEach(element => {
-                if(element.idMeal === el.idMeal) {
-                    mealIcon.classList.add('active')
-                }
-              })
-          }
+          toggleIconClass (el, mealIcon)
 
 
           mealIcon.addEventListener('click', e=> {
@@ -216,6 +241,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
     manual.classList.add('hidden')
     recipeContent.style.overflow = 'auto'
    })
-   
+  
   });
 
