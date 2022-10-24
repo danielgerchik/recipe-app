@@ -16,7 +16,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
       return JSON.parse(localStorage.getItem('recipeItem'))  
       }
 
-     const addToLS = async item => {
+     const addOrRemoveLS = async item => {
 
        let LSItems = await getFromLS()
 
@@ -76,7 +76,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
        
         favBtn.addEventListener('click', async e=> {
             favBtn.classList.toggle('active')
-           await addToLS(randomMeal.meals[0])
+           await addOrRemoveLS(randomMeal.meals[0])
             renderFavItems()
         })
         
@@ -98,7 +98,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
   async function renderFavItems() {
         const storageArr = await getFromLS()
-
+        const allActiveFavBut = document.querySelectorAll('.recipe__meal-icon.active')
             favItems.innerHTML = ''
             storageArr.map(item => {
                 const favItem = document.createElement('div')
@@ -125,9 +125,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
                 </svg>                
                 ` 
                 favRemoveBut.addEventListener('click', async ()=> {
-                    await addToLS(item)
+                    await addOrRemoveLS(item)
                     renderFavItems()
-                    const allActiveFavBut = document.querySelectorAll('.recipe__meal-icon.active')
                     allActiveFavBut.forEach(el=> {
                         if(item.strMealThumb === el.parentNode.parentNode.querySelector('.recipe__meal-img').getAttribute('src')) {
                             el.classList.remove('active')
@@ -178,7 +177,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
           mealIcon.addEventListener('click', async e=> {
             e.currentTarget.classList.toggle('active')
-           await addToLS(el)
+           await addOrRemoveLS(el)
             renderFavItems()
           })
 
