@@ -120,6 +120,10 @@ ol {
 .recipe__favorites {
     padding: 15px 0;
 }
+.recipe__favorites.none {
+    visibility: hidden;
+    position: absolute;
+}
 .recipe__favorites-title {
     font-weight: 700;
     font-size: 1.8rem;
@@ -159,10 +163,11 @@ ol {
     position: absolute;
     right: 15px;
 }
-.recipe__favorites-remove-but svg {
 
-}
 .recipe__meals {
+}
+.recipe__favorites.none + .recipe__meals {
+    padding-top: 30px;
 }
 .recipe__meal {
     margin-bottom: 40px;
