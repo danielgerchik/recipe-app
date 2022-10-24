@@ -95,8 +95,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
     setRandomMeal()
 
 
-   function renderFavItems() {
-        const storageArr = getFromLS()
+  async function renderFavItems() {
+        const storageArr = await getFromLS()
 
             favItems.innerHTML = ''
             storageArr.map(item => {
