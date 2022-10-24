@@ -55,7 +55,7 @@ html {
 body {
     font-size: 1.6rem;
     font-family: 'Open Sans', sans-serif;
-    /* overflow: hidden; */
+    overflow: hidden;
 }
 ol {
     list-style: auto;
@@ -69,11 +69,11 @@ ol {
 }
 .recipe {
     background: linear-gradient(90deg, #e3ffe7 0%, #d9e7ff 100%);
-    min-height: 100vh;
+    height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 50px 10px 50px 10px;
+    padding: 10px;
 }
 .recipe__content {
     padding: 10px;
