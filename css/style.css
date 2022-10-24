@@ -119,6 +119,8 @@ ol {
 }
 .recipe__search-btn svg {
     cursor: pointer;
+    width: 100%;
+    height: 100%;
 }
 .recipe__favorites {
     padding: 15px 0;
