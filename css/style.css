@@ -112,7 +112,7 @@ ol {
     font-size: 1.6rem;
 }
 .recipe__search-btn {
-    height: 30px;
+    width: 40px;
     background-color: #fff;
     border: none;
 }
