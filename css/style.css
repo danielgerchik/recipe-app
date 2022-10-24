@@ -112,12 +112,12 @@ ol {
     font-size: 1.6rem;
 }
 .recipe__search-btn {
-    width: 30px;
     background-color: #fff;
     border: none;
 }
 .recipe__search-btn svg {
     cursor: pointer;
+    width: 30px;
 }
 .recipe__favorites {
     padding: 15px 0;
