@@ -301,11 +301,11 @@ ol {
     border-radius: 10px;
   }
 
-  /* @media screen and (max-width: 767px) {
+  @media screen and (max-width: 767px) {
     .recipe__content {
-        height: 68.5%;
+        height: 62%;
     }
     .recipe__manual {
-        height: 67%;
+        height: 60%;
     }
-  } */
+  }
