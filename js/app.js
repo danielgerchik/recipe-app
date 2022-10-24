@@ -16,9 +16,9 @@ document.addEventListener("DOMContentLoaded", function(event) {
       return JSON.parse(localStorage.getItem('recipeItem'))  
       }
 
-     const addToLS = item => {
+     const addToLS = async item => {
 
-       let LSItems = getFromLS()
+       let LSItems = await getFromLS()
 
        if(!LSItems) {
         LSItems = []
@@ -35,8 +35,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
   }
 
 
-  function toggleIconClass (item, favBtn) {
-    const storageItems = getFromLS()
+  async function toggleIconClass (item, favBtn) {
+    const storageItems = await getFromLS()
     if(storageItems) {
         storageItems.forEach(element => {
             if(element.idMeal === item.idMeal) {
@@ -74,9 +74,9 @@ document.addEventListener("DOMContentLoaded", function(event) {
         toggleIconClass (randomMeal.meals[0], favBtn)
 
        
-        favBtn.addEventListener('click', e=> {
+        favBtn.addEventListener('click', async e=> {
             favBtn.classList.toggle('active')
-            addToLS(randomMeal.meals[0])
+           await addToLS(randomMeal.meals[0])
             renderFavItems()
         })
         
@@ -124,8 +124,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
                 <path d="M227.5 0C101.761 0 0 101.75 0 227.5C0 353.239 101.75 455 227.5 455C353.239 455 455 353.25 455 227.5C455.001 101.761 353.251 0 227.5 0ZM310.759 268.333C322.474 280.049 322.474 299.044 310.759 310.76C304.901 316.618 297.223 319.547 289.546 319.547C281.869 319.547 274.191 316.618 268.333 310.76L227.5 269.927L186.668 310.759C180.81 316.617 173.132 319.546 165.455 319.546C157.778 319.546 150.1 316.617 144.242 310.759C132.527 299.043 132.527 280.048 144.242 268.332L185.074 227.5L144.242 186.668C132.527 174.952 132.527 155.957 144.242 144.241C155.958 132.525 174.953 132.525 186.669 144.241L227.501 185.073L268.333 144.241C280.049 132.525 299.044 132.525 310.76 144.241C322.475 155.957 322.475 174.952 310.76 186.668L269.927 227.5L310.759 268.333Z" fill="#0C7A11"/>
                 </svg>                
                 ` 
-                favRemoveBut.addEventListener('click', ()=> {
-                    addToLS(item)
+                favRemoveBut.addEventListener('click', async ()=> {
+                    await addToLS(item)
                     renderFavItems()
                     const allActiveFavBut = document.querySelectorAll('.recipe__meal-icon.active')
                     allActiveFavBut.forEach(el=> {
@@ -176,9 +176,9 @@ document.addEventListener("DOMContentLoaded", function(event) {
           toggleIconClass (el, mealIcon)
 
 
-          mealIcon.addEventListener('click', e=> {
+          mealIcon.addEventListener('click', async e=> {
             e.currentTarget.classList.toggle('active')
-            addToLS(el)
+           await addToLS(el)
             renderFavItems()
           })
 
