@@ -300,3 +300,12 @@ ol {
     outline: none;
     border-radius: 10px;
   }
+
+  @media screen and (max-width: 767px) {
+    .recipe__content {
+        height: 68.5%;
+    }
+    .recipe__manual {
+        height: 67%;
+    }
+  }
