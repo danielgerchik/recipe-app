@@ -1,5 +1,6 @@
 document.addEventListener("DOMContentLoaded", function(event) {
 
+    const recipeBlock = document.querySelector('.recipe')
     const mealsBlock = document.querySelector('.recipe__meals')
     const searchField = document.querySelector('.recipe__search-field')
     const searchBtn = document.querySelector('.recipe__search-btn')
@@ -217,7 +218,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
     document.querySelector('.manual__instructions').innerHTML = meal.strInstructions
     document.querySelector('.manual__img').setAttribute('src', meal.strMealThumb)
     const ingrEl = document.querySelector('.manual__ingredients')
-    const recipeContentNow = document.querySelector('.recipe__content')
 
     
 
@@ -239,10 +239,9 @@ document.addEventListener("DOMContentLoaded", function(event) {
        })
 
     
-    manual.style.height = recipeContentNow.clientHeight + 'px'
 
     manual.classList.remove('hidden')
-    recipeContentNow.style.overflow = 'hidden'
+    recipeContent.style.overflow = 'hidden'
     
    }
   
@@ -251,5 +250,12 @@ document.addEventListener("DOMContentLoaded", function(event) {
     recipeContent.style.overflow = 'auto'
    })
   
+   if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini/i
+    .test(navigator.userAgent)) {
+
+        recipeBlock.style.height = '-webkit-fill-available'
+
+} 
+
   });
 
