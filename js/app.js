@@ -7,8 +7,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
     const closeManualBtn = document.querySelector('.manual svg')
     const logo = document.querySelector('.recipe__logo')
     const favItems = document.querySelector('.recipe__favorites-items')
-    const recipeContent = document.querySelector('.recipe__content')
     const favBlock = document.querySelector('.recipe__favorites')
+    const recipeContent = document.querySelector('.recipe__content')
 
 
     const getFromLS = () => {
@@ -217,6 +217,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
     document.querySelector('.manual__instructions').innerHTML = meal.strInstructions
     document.querySelector('.manual__img').setAttribute('src', meal.strMealThumb)
     const ingrEl = document.querySelector('.manual__ingredients')
+    const recipeContentNow = document.querySelector('.recipe__content')
+
     
 
         const ingredients = []
@@ -236,9 +238,11 @@ document.addEventListener("DOMContentLoaded", function(event) {
         ingrEl.insertAdjacentHTML('beforeend', `<li>${ingr}</li>`)
        })
 
+    
+    manual.style.height = recipeContentNow.clientHeight + 'px'
 
     manual.classList.remove('hidden')
-    recipeContent.style.overflow = 'hidden'
+    recipeContentNow.style.overflow = 'hidden'
     
    }
   
