@@ -249,12 +249,12 @@ document.addEventListener("DOMContentLoaded", function(event) {
     recipeContent.style.overflow = 'auto'
    })
   
-//    if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini/i
-//     .test(navigator.userAgent)) {
+   if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini/i
+    .test(navigator.userAgent)) {
 
-//         recipeBlock.style.height = '-webkit-fill-available'
+        recipeBlock.style.height = '-webkit-fill-available'
 
-// } 
+} 
 
   });
 
