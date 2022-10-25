@@ -302,9 +302,9 @@ ol {
   }
 @media screen and (max-width: 767px) {
     .recipe__content {
-        height: 69%;
+        height: 71%;
     }
     .recipe__manual {
-        height: 67.5%;
+        height: 69.5%;
     }
 }
